@@ -31,6 +31,12 @@
                 justify-content: center;
             }
 
+            .flex-nocenter {
+                //align-items: center;
+                display: flex;
+                justify-content: center;
+            }
+
             .position-ref {
                 position: relative;
             }
@@ -65,7 +71,7 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-nocenter position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     <a href="{{ url('/login') }}">Login</a>
@@ -75,16 +81,20 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Fleet.air
                 </div>
 
                 <div class="links">
+                    <!--
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
+                    -->
                 </div>
+                
+                @yield('content');
             </div>
         </div>
     </body>

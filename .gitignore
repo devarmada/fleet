@@ -20,3 +20,5 @@ bootstrap/cache/
 Homestead.json
 Homestead.yaml
 .env
+NOTES.TXT
+.NOTES.TXT.swp
