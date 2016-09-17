@@ -44,13 +44,11 @@ You have no aircraft lists
                 </a>
             </td>
             <td>
-                {!! Form::open(array('class' => 'form-inline', 
-                'method' => 'DELETE', 
-                'route' => array('fleet_lists.destroy', 
-                $fleet_list->id))) !!}
-                {!! link_to_route('fleet_lists.edit', 'Edit', array($fleet_list->id), 
-                array('class' => 'btn btn-info')) !!},
-                {!! Form::submit('Delete', array('class' => 'btn btn-danger')) !!}
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'route' => array('fleet_lists.destroy', $fleet_list->id))) !!}
+                <a class="btn btn-primary" href="{{ route('fleet_lists.edit', array($fleet_list->id)) }}">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
+                {!! Form::button('<span class="glyphicon glyphicon-trash">Delete</span>', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
                 {!! Form::close() !!}
             </td>
         </tr>

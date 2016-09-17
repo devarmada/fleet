@@ -6,8 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\FleetList;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Redirect;
+
 
 class FleetListsController extends Controller {
+    protected $rules = [
+        'name' => ['required'],
+        'description' => ['required'],
+        'user_id' => ['required'],
+        'group_id' => ['required'],
+    ];
 
     public function __construct() {
         $this->middleware('auth');
@@ -35,7 +44,9 @@ class FleetListsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('fleet_lists.create');
+        $user = Auth::user();
+        $groups = $user->groups;
+        return view('fleet_lists.create', compact('user', 'groups'));
     }
 
     /**

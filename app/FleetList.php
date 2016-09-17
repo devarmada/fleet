@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class FleetList extends Model {
 
+    protected $guarded = [];
+
     public function aircrafts() {
         return $this->hasMany('App\Aircraft');
     }
