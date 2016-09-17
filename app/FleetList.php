@@ -10,4 +10,12 @@ class FleetList extends Model {
         return $this->hasMany('App\Aircraft');
     }
 
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    public function group() {
+        return $this->belongsTo('App\Group');
+    }
+
 }

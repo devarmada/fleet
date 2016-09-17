@@ -15,6 +15,7 @@ class CreateFleetLists extends Migration {
         Schema::create('fleet_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->default('');
+            $table->text('description')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->
                     references('id')->on('users')->onDelete('SET NULL');

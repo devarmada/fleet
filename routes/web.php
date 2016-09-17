@@ -12,7 +12,7 @@
  */
 
 Route::get('/', function () {
-    return view('default');
+    return redirect()->route('fleet_lists.index');
 });
 
 Route::model('aircrafts', 'Aircraft');
@@ -28,3 +28,7 @@ Route::bind('aircrafts', function($id, $route) {
 
 Route::resource('fleet_lists', 'FleetListsController');
 Route::resource('fleet_lists.aircrafts', 'AircraftsController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

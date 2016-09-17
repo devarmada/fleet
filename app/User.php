@@ -30,4 +30,13 @@ class User extends Authenticatable {
     public function groups() {
         return $this->belongsToMany('App\Group');
     }
+
+    public function fleet_lists() {
+        return $this->hasMany('App\FleetList');
+    }
+
+    public function aircrafts() {
+        return $this->hasMany('App\Aircraft');
+    }
+
 }

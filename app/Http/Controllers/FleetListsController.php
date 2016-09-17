@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\FleetList;
+use Illuminate\Support\Facades\Auth;
 
 class FleetListsController extends Controller {
+
+    public function __construct() {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -14,6 +19,12 @@ class FleetListsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        /*
+          if (Auth::check()) {
+          return redirect()->route('login');
+          }
+         */
+        //$user = Auth::user();
         $fleet_lists = FleetList::all();
         return view('fleet_lists.index', compact('fleet_lists'));
     }
@@ -24,7 +35,7 @@ class FleetListsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return view('fleet_lists.create');
     }
 
     /**
@@ -34,7 +45,10 @@ class FleetListsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $this->validate($request, $this->rules);
+        $input = Input::all();
+        FleetList::create($input);
+        return Redirect::route('fleet_lists.index')->with('message', 'List created');
     }
 
     /**

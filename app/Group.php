@@ -10,4 +10,8 @@ class Group extends Model {
         return $this->belongsToMany('App\User');
     }
 
+    public function fleet_lists() {
+        return $this->hasMany('App\FleetList');
+    }
+
 }

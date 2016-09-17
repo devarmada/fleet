@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Aircraft extends Model {
 
-    public function fleet_lists() {
-        return $this->belongsToMany('App\FleetList');
+    public function fleet_list() {
+        return $this->belongsTo('App\FleetList');
     }
 
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
 }
