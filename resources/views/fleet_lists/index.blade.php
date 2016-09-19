@@ -48,7 +48,7 @@ You have no aircraft lists
                 <a class="btn btn-primary" href="{{ route('fleet_lists.edit', array($fleet_list->id)) }}">
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
-                {!! Form::button('<span class="glyphicon glyphicon-trash">Delete</span>', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
+                {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
                 {!! Form::close() !!}
             </td>
         </tr>

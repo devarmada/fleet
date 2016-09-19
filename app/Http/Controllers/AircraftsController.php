@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\FleetList;
 
 class AircraftsController extends Controller {
 
@@ -16,8 +17,8 @@ class AircraftsController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        //
+    public function index(FleetList $fleet_list) {
+        return view('fleet_lists.show', compact('fleet_list'));
     }
 
     /**

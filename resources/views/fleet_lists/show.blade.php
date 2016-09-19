@@ -14,13 +14,14 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
-                {!! Form::open(array('class' => 'form-inline', 
-                'method' => 'DELETE', 
-                'route' => array('fleet_lists.destroy', 
-                $fleet_list->id))) !!}
-                {!! link_to_route('fleet_lists.edit', 'Edit', array($fleet_list->id), 
-                array('class' => 'btn btn-info')) !!},
-                {!! Form::submit('Delete', array('class' => 'btn btn-danger')) !!}
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'route' => array('fleet_lists.destroy', $fleet_list->id))) !!}
+                <a class="btn btn-primary" href="{{ route('fleet_lists.edit', array($fleet_list->id)) }}">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
+                {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
+<!--                {!! link_to_route('fleet_lists.edit', 'Edit', array($fleet_list->id), 
+                array('class' => 'btn btn-info')) !!},-->
+                <!--{!! Form::submit('Delete', array('class' => 'btn btn-danger')) !!}-->
                 {!! Form::close() !!}
             </ul>
         </div>
@@ -69,13 +70,11 @@ Your list has no aircrafts.
                 </a>
             </td>
             <td>
-                {!! Form::open(array('class' => 'form-inline', 
-                'method' => 'DELETE', 
-                'route' => array('fleet_lists.aircrafts.destroy', 
-                $fleet_list->id, $aircraft->id))) !!}
-                {!! link_to_route('fleet_lists.aircrafts.edit', 'Edit', array($fleet_list->id, $aircraft->id), 
-                array('class' => 'btn btn-info')) !!},
-                {!! Form::submit('Delete', array('class' => 'btn btn-danger')) !!}
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
+                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
+                {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
                 {!! Form::close() !!}
             </td>
         </tr>
@@ -88,7 +87,6 @@ Your list has no aircrafts.
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                cal
                 <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.create', 'New aircraft', array($fleet_list->id), array('class' => 'btn btn-info')) }}">
                     <span class="glyphicon glyphicon-plus"></span> New aircraft
                 </a>
