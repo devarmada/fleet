@@ -1,24 +1,54 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
-<h2>{{ $aircraft->model }}</h2>
+  <script>
+    function ConfirmDelete()  {
+    var x = confirm("Are you sure you want to delete this list?");
+    if (x)
+      return true;
+    else
+      return false;
+  }
+  </script>
 
+  <nav class="navbar navbar-static-top">
+    <div class="container">
+      <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <!-- Left Side Of Navbar -->
+        <ul class="nav navbar-nav">
+          <h2>{{ $aircraft->model }}</h2>
+          <h3>{{ $aircraft->year }}</h3>
+          <h3>{{ $aircraft->description }}</h3>
+        </ul>
 
-{!! Form::open(array('class' => 'form-inline', 
-'method' => 'DELETE', 
-'route' => array('aircrafts.destroy', 
-$fleet_list->id, $aircraft->id))) !!}
-<a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}">{{ $aircraft->model }}</a>
-(
-{!! link_to_route('fleet_lists.aircrafts.edit', 'Edit', array($fleet_list->id, $aircraft->id), 
-array('class' => 'btn btn-info')) !!},
+              <!-- Right Side Of Navbar -->
+              <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
+                  {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
+                  <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
+                      <span class="glyphicon glyphicon-pencil"></span> Edit
+                  </a>
+                  {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
+                  {!! Form::close() !!}
+              </ul>
+          </div>
+      </div>
+  </nav>
 
-{!! Form::submit('Delete', array('class' => 'btn btn-danger')) !!}
-)
-{!! Form::close() !!}
-@endif
-<p>
-    {!! link_to_route('fleet_lists.index', 'Back to Projects') !!} |
-    {!! link_to_route('fleet_lists.aircrafts.create', 'Create Task', $project->id) !!}
-</p>
+<nav class="navbar navbar-static-top">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            <!-- Left Side Of Navbar -->
+            <ul class="nav navbar-nav">
+                <a class="btn btn-primary" href="{{ route('fleet_lists.show', $fleet_list) }}">
+                    <span class="glyphicon glyphicon-hand-left"></span> Back
+                </a>
+            </ul>
+
+            <!-- Right Side Of Navbar -->
+            <ul class="nav navbar-nav navbar-right">
+                &nbsp;
+            </ul>
+        </div>
+    </div>
+</nav>
 @endsection

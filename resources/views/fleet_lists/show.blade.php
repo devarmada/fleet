@@ -1,9 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+  <script>
+    function ConfirmDelete()  {
+    var x = confirm("Are you sure you want to delete this list?");
+    if (x)
+      return true;
+    else
+      return false;
+  }
+  </script>
 
-
-<nav class="navbar navbar-static-top">
+  <nav class="navbar navbar-static-top">
     <div class="container">
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
@@ -14,25 +22,22 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
-                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'route' => array('fleet_lists.destroy', $fleet_list->id))) !!}
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.destroy', $fleet_list->id))) !!}
                 <a class="btn btn-primary" href="{{ route('fleet_lists.edit', array($fleet_list->id)) }}">
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
                 {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
-<!--                {!! link_to_route('fleet_lists.edit', 'Edit', array($fleet_list->id), 
-                array('class' => 'btn btn-info')) !!},-->
-                <!--{!! Form::submit('Delete', array('class' => 'btn btn-danger')) !!}-->
                 {!! Form::close() !!}
             </ul>
         </div>
     </div>
-</nav>
+  </nav>
 
 
-@if ( !$fleet_list->aircrafts->count() )
-Your list has no aircrafts.
-@else
-<table class="table table-striped">
+  @if ( !$fleet_list->aircrafts->count() )
+    Your list has no aircrafts.
+  @else
+  <table class="table table-striped">
     <thead>
         <tr style="text-align: center;">
             <th width="20%">Model</th>
@@ -70,7 +75,7 @@ Your list has no aircrafts.
                 </a>
             </td>
             <td>
-                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
                 <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
@@ -80,14 +85,14 @@ Your list has no aircrafts.
         </tr>
         @endforeach
     </tbody>
-</table>
-@endif
-<nav class="navbar navbar-static-top">
+  </table>
+  @endif
+  <nav class="navbar navbar-static-top">
     <div class="container">
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.create', 'New aircraft', array($fleet_list->id), array('class' => 'btn btn-info')) }}">
+                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.create', $fleet_list->id, array('class' => 'btn btn-info')) }}">
                     <span class="glyphicon glyphicon-plus"></span> New aircraft
                 </a>
                 <a class="btn btn-primary" href="{{ route('fleet_lists.index') }}">
@@ -101,6 +106,5 @@ Your list has no aircrafts.
             </ul>
         </div>
     </div>
-</nav>
-
+  </nav>
 @endsection

@@ -9,12 +9,21 @@
 @endif
 
 {{ Form::hidden('user_id', $user->id ) }}
+{{ Form::hidden('fleet_list_id', $fleet_list->id ) }}
 <div class="form-group">
     <div class="form-label">
-        {!! Form::label('name', 'Name:') !!}
+        {!! Form::label('model', 'Model:') !!}
     </div>
     <div class="form-field">
-        {!! Form::text('name', $name_value, array('class' => 'form-control')) !!}
+        {!! Form::text('model', $model_value, array('class' => 'form-control')) !!}
+    </div>
+</div>
+<div class="form-group">
+    <div class="form-label">
+        {!! Form::label('year', 'Year:') !!}
+    </div>
+    <div class="form-field">
+        {!! Form::text('year', $year_value, array('class' => 'form-control')) !!}
     </div>
 </div>
 <div class="form-group">
@@ -26,19 +35,6 @@
     </div>
 </div>
 <div class="form-group">
-    <div class="form-label">
-        {!! Form::Label('groups', 'Groups:') !!}
-    </div>
-    <div class="form-field">
-        <select class="form-control" name="group_id">
-            @foreach($groups as $group)
-            <option value="{{ $group->id }}">{{ $group->name }}</option>
-            @endforeach
-        </select>
-    </div>
-</div>
-<div class="form-group">
-<!--    <a class="btn btn-primary" href="{{ route('fleet_lists.index') }}">-->
     <a class="btn btn-primary" href="{{ Session::get('backUrl') }}">
         <span class="glyphicon glyphicon-hand-left"></span> Back
     </a>
