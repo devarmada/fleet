@@ -25,7 +25,8 @@ class FleetListsController extends Controller {
 
   public function index() {
     Session::put('backUrl', route('fleet_lists.index'));
-    $fleet_lists = FleetList::all();
+    $user = Auth::user();
+    $fleet_lists = FleetList::get_all_visible($user);
     return view('fleet_lists.index', compact('fleet_lists'));
   }
 
@@ -43,17 +44,28 @@ class FleetListsController extends Controller {
   }
 
   public function show(FleetList $fleet_list) {
+    $user = Auth::user();
+    if(!$fleet_list->is_accessible_by($user)){
+      return view('common.not_authorized');
+    }
     Session::put('backUrl', route('fleet_lists.show', $fleet_list));
     return view('fleet_lists.show', compact('fleet_list'));
   }
 
   public function edit(FleetList $fleet_list) {
     $user = Auth::user();
+    if(!$fleet_list->is_accessible_by($user)){
+      return view('common.not_authorized');
+    }
     $groups = $user->groups;
     return view('fleet_lists.edit', compact('fleet_list', 'user', 'groups'));
   }
 
   public function update(Request $request, FleetList $fleet_list) {
+    $user = Auth::user();
+    if(!$fleet_list->is_accessible_by($user)){
+      return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+    }
     $this->validate($request, $this->rules);
     $input = array_except(Input::all(), '_method');
     $fleet_list->update($input);
@@ -61,8 +73,11 @@ class FleetListsController extends Controller {
   }
 
   public function destroy(FleetList $fleet_list) {
+    $user = Auth::user();
+    if(!$fleet_list->is_accessible_by($user)){
+      return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+    }
     $fleet_list->delete();
-    //return redirect(Session::get('backUrl'))->with('message', 'List deleted');
     return Redirect::route('fleet_lists.index')->with('message', 'List deleted.');
   }
 

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class RedirectIfAuthenticated
 {
@@ -20,6 +21,8 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             return redirect('/home');
         }
+
+        Session::put('backUrl', route('fleet_lists.index'));
 
         return $next($request);
     }

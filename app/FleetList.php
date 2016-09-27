@@ -8,6 +8,17 @@ class FleetList extends Model {
 
     protected $guarded = [];
 
+    public static function get_all_visible($user){
+      if($user->id==1){
+        return FleetList::all();
+      }
+      return FleetList::all()->whereIn('group_id', $user->groups()->pluck('id'));
+    }
+
+    public function is_accessible_by(User $user) {
+      return $user->groups()->pluck('id')->contains($this->group->id);
+    }
+
     public function aircrafts() {
         return $this->hasMany('App\Aircraft');
     }
