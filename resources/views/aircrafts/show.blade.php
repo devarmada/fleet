@@ -3,7 +3,7 @@
 @section('content')
   <script>
     function ConfirmDelete()  {
-    var x = confirm("Are you sure you want to delete this list?");
+    var x = confirm("Are you sure you want to delete this aircraft?");
     if (x)
       return true;
     else
@@ -34,12 +34,54 @@
       </div>
   </nav>
 
-<nav class="navbar navbar-static-top">
+  @if ( !$aircraft->notes->count() )
+    This aircraft has no notes.
+  @else
+  <table class="table table-striped">
+    <thead>
+        <tr style="text-align: center;">
+            <th width="50%">Title</th>
+            <th width="35%">User</th>
+            <th width="15%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach( $aircraft->notes as $note )
+        <tr>
+            <td>
+                <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}"
+                   style="display: block; width: 100%; height: 100%;">
+                    {{ $note->title }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}"
+                   style="display: block; width: 100%; height: 100%;">
+                    {{ $note->user->name }}
+                </a>
+            </td>
+            <td>
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.notes.destroy', $fleet_list->id, $aircraft->id, $note->id))) !!}
+                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.notes.edit', array($fleet_list->id, $aircraft->id, $note->id)) }}">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
+                {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
+                {!! Form::close() !!}
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+  </table>
+  @endif
+  <nav class="navbar navbar-static-top">
     <div class="container">
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <a class="btn btn-primary" href="{{ route('fleet_lists.show', $fleet_list) }}">
+                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.notes.create', [$fleet_list->id, $aircraft->id], array('class' => 'btn btn-info')) }}">
+                    <span class="glyphicon glyphicon-plus"></span> New note
+                </a>
+                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft]) }}">
                     <span class="glyphicon glyphicon-hand-left"></span> Back
                 </a>
             </ul>
@@ -50,5 +92,5 @@
             </ul>
         </div>
     </div>
-</nav>
+  </nav>
 @endsection

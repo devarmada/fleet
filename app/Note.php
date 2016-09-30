@@ -12,4 +12,8 @@ class Note extends Model
       return $this->belongsTo('App\Aircraft');
   }
 
+  public function user() {
+      return $this->belongsTo('App\User');
+  }
+
 }
