@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Aircraft extends Model {
 
     protected $guarded = [];
-    
+
     public function fleet_list() {
         return $this->belongsTo('App\FleetList');
     }
@@ -15,4 +15,9 @@ class Aircraft extends Model {
     public function user() {
         return $this->belongsTo('App\User');
     }
+
+    public function notes() {
+        return $this->hasMany('App\Note');
+    }
+
 }
