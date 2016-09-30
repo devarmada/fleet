@@ -16,15 +16,14 @@
       <div class="collapse navbar-collapse" id="app-navbar-collapse">
         <!-- Left Side Of Navbar -->
         <ul class="nav navbar-nav">
-          <h2>{{ $aircraft->model }}</h2>
-          <h3>{{ $aircraft->year }}</h3>
-          <h3>{{ $aircraft->description }}</h3>
+          <h2>{{ $note->title }}</h2>
+          <h3>{{ $note->text }}</h3>
         </ul>
 
               <!-- Right Side Of Navbar -->
               <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
-                  {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
-                  <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
+                  {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.notes.destroy', $fleet_list->id, $aircraft->id, $note->id))) !!}
+                  <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.notes.edit', array($fleet_list->id, $aircraft->id, $note->id)) }}">
                       <span class="glyphicon glyphicon-pencil"></span> Edit
                   </a>
                   {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
@@ -39,7 +38,7 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <a class="btn btn-primary" href="{{ route('fleet_lists.show', $fleet_list) }}">
+                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft]) }}">
                     <span class="glyphicon glyphicon-hand-left"></span> Back
                 </a>
             </ul>
