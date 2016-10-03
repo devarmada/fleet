@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use App\Note;
 use App\Aircraft;
 use App\FleetList;
+use Redirect;
 use Session;
 
 class NotesController extends Controller
@@ -30,25 +32,23 @@ class NotesController extends Controller
       return view('aircrafts.show', compact('fleet_list','aircraft'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function create(FleetList $fleet_list, Aircraft $aircraft) {
+      $user = Auth::user();
+      if(!$fleet_list->is_accessible_by($user)){
+        return view('common.not_authorized');
+      }
+      return view('notes.create', compact('user', 'fleet_list', 'aircraft'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(FleetList $fleet_list, Aircraft $aircraft, Request $request) {
+      $user = Auth::user();
+      if(!$fleet_list->is_accessible_by($user)){
+        return redirect(Session::get('backUrl'))->with('message', 'Create error: not authorized');
+      }
+      $this->validate($request, $this->rules);
+      $input = Input::all();
+      Note::create($input);
+      return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft])->with('message', 'Note created.');
     }
 
    public function show(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
@@ -60,28 +60,24 @@ class NotesController extends Controller
        return view('notes.show', compact('fleet_list', 'aircraft', 'note'));
      }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+     public function edit(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
+       $user = Auth::user();
+       if($aircraft != $note->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+         return view('common.not_authorized');
+       }
+       return view('notes.edit', compact('user', 'fleet_list', 'aircraft', 'note'));
+     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+     public function update(Request $request, FleetList $fleet_list, Aircraft $aircraft, Note $note) {
+       $user = Auth::user();
+       if($aircraft != $note->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+       }
+       $this->validate($request, $this->rules);
+       $input = array_except(Input::all(), '_method');
+       $note->update($input);
+       return redirect(Session::get('backUrl'))->with('message', 'Note updated');
+     }
 
     /**
      * Remove the specified resource from storage.

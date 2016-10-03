@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<h2>Edit aircraft</h2>
-{!! Form::model($aircraft, ['method' => 'PATCH', 'route' => ['fleet_lists.aircrafts.update', $fleet_list->id, $aircraft->id]]) !!}
-@include('aircrafts/partials/_form', ['submit_text' => 'Edit', 'model_value' => $aircraft->model, 'year_value' => $aircraft->year, 'desc_value' => $aircraft->description])
+<h2>Edit note</h2>
+{!! Form::model($note, ['method' => 'PATCH', 'route' => ['fleet_lists.aircrafts.notes.update', $fleet_list->id, $aircraft->id, $note->id]]) !!}
+@include('notes/partials/_form', ['submit_text' => 'Edit', 'title_value' => $note->title, 'text_value' => $note->text])
 {!! Form::close() !!}
 @endsection

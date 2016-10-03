@@ -2,7 +2,7 @@
 
 @section('content')
 <h2>Create List</h2>
-{!! Form::model(new App\Aircraft, ['route' => ['fleet_lists.aircrafts.store', $fleet_list->id]]) !!}
-@include('aircrafts/partials/_form', ['submit_text' => 'Create', 'model_value' => '', 'year_value' => '', 'desc_value' => ''])
+{!! Form::model(new App\Note, ['route' => ['fleet_lists.aircrafts.notes.store', $fleet_list->id, $aircraft->id]]) !!}
+@include('notes/partials/_form', ['submit_text' => 'Create', 'title_value' => '', 'text_value' => ''])
 {!! Form::close() !!}
 @endsection

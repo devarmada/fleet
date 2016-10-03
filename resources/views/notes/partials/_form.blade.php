@@ -9,29 +9,21 @@
 @endif
 
 {{ Form::hidden('user_id', $user->id ) }}
-{{ Form::hidden('fleet_list_id', $fleet_list->id ) }}
+{{ Form::hidden('aircraft_id', $aircraft->id ) }}
 <div class="form-group">
     <div class="form-label">
-        {!! Form::label('model', 'Model:') !!}
+        {!! Form::label('model', 'Title:') !!}
     </div>
     <div class="form-field">
-        {!! Form::text('model', $model_value, array('class' => 'form-control')) !!}
+        {!! Form::text('title', $title_value, array('class' => 'form-control')) !!}
     </div>
 </div>
 <div class="form-group">
     <div class="form-label">
-        {!! Form::label('year', 'Year:') !!}
+        {!! Form::label('text', 'Text:') !!}
     </div>
     <div class="form-field">
-        {!! Form::text('year', $year_value, array('class' => 'form-control')) !!}
-    </div>
-</div>
-<div class="form-group">
-    <div class="form-label">
-        {!! Form::label('description', 'Description:') !!}
-    </div>
-    <div class="form-field">
-        {!! Form::text('description', $desc_value, array('class' => 'form-control')) !!}
+        {!! Form::textarea('text', $text_value, array('class' => 'form-control')) !!}
     </div>
 </div>
 <div class="form-group">
