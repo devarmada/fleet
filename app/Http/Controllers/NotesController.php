@@ -79,14 +79,13 @@ class NotesController extends Controller
        return redirect(Session::get('backUrl'))->with('message', 'Note updated');
      }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+     public function destroy(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
+       $user = Auth::user();
+       if($aircraft != $note->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+         return redirect (Session::get('backUrl'))->with('message', 'Delete error: not authorized');
+       }
+       $note->delete();
+       return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id])->with('message', 'Note deleted.');
+     }
+
 }

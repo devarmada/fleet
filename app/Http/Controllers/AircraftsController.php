@@ -81,7 +81,6 @@ class AircraftsController extends Controller {
     return redirect(Session::get('backUrl'))->with('message', 'Aircraft updated');
   }
 
-
   public function destroy(FleetList $fleet_list, Aircraft $aircraft) {
     $user = Auth::user();
     if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
