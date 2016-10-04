@@ -81,7 +81,7 @@
                 <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.notes.create', [$fleet_list->id, $aircraft->id], array('class' => 'btn btn-info')) }}">
                     <span class="glyphicon glyphicon-plus"></span> New note
                 </a>
-                <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft]) }}">
+                <a class="btn btn-primary" href="{{ route('fleet_lists.show', $fleet_list) }}">
                     <span class="glyphicon glyphicon-hand-left"></span> Back
                 </a>
             </ul>
