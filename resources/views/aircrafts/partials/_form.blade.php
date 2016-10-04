@@ -1,13 +1,3 @@
-@if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 {{ Form::hidden('user_id', $user->id ) }}
 {{ Form::hidden('fleet_list_id', $fleet_list->id ) }}
 <div class="form-group">
