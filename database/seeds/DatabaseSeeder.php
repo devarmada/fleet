@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FleetListsTableSeeder::class);
         $this->call(AircraftsTableSeeder::class);
         $this->call(NotesTableSeeder::class);
+        $this->call(AttachmentsTableSeeder::class);
     }
 }
