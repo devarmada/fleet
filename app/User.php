@@ -39,4 +39,12 @@ class User extends Authenticatable {
         return $this->hasMany('App\Aircraft');
     }
 
+    public function notes() {
+        return $this->hasMany('App\Note');
+    }
+
+    public function attachments() {
+        return $this->hasMany('App\Attachment');
+    }
+
 }
