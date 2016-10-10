@@ -20,4 +20,8 @@ class Aircraft extends Model {
         return $this->hasMany('App\Note');
     }
 
+    public function attachments() {
+        return $this->hasMany('App\Attachment');
+    }
+
 }
