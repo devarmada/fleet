@@ -14,8 +14,9 @@ use Session;
 
 class NotesController extends Controller
 {
-      protected $rules = [
+    protected $rules = [
       'title' => ['required'],
+      'aircraft_id' => ['required'],
       'user_id' => ['required'],
     ];
 
@@ -51,24 +52,24 @@ class NotesController extends Controller
       return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft])->with('message', 'Note created.');
     }
 
-   public function show(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
+    public function show(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
        $user = Auth::user();
        if($aircraft != $note->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
          return view('common.not_authorized');
        }
        Session::put('backUrl', route('fleet_lists.aircrafts.notes.show', array($fleet_list, $aircraft, $note)));
        return view('notes.show', compact('fleet_list', 'aircraft', 'note'));
-     }
+    }
 
-     public function edit(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
+    public function edit(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
        $user = Auth::user();
        if($aircraft != $note->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
          return view('common.not_authorized');
        }
        return view('notes.edit', compact('user', 'fleet_list', 'aircraft', 'note'));
-     }
+    }
 
-     public function update(Request $request, FleetList $fleet_list, Aircraft $aircraft, Note $note) {
+    public function update(Request $request, FleetList $fleet_list, Aircraft $aircraft, Note $note) {
        $user = Auth::user();
        if($aircraft != $note->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
          return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
@@ -77,15 +78,15 @@ class NotesController extends Controller
        $input = array_except(Input::all(), '_method');
        $note->update($input);
        return redirect(Session::get('backUrl'))->with('message', 'Note updated');
-     }
+    }
 
-     public function destroy(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
+    public function destroy(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
        $user = Auth::user();
        if($aircraft != $note->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
          return redirect (Session::get('backUrl'))->with('message', 'Delete error: not authorized');
        }
        $note->delete();
        return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id])->with('message', 'Note deleted.');
-     }
+    }
 
 }
