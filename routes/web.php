@@ -15,6 +15,9 @@ Route::get('/', function () {
     return redirect()->route('fleet_lists.index');
 });
 
+Route::get('users/{user}/add_group', ['as' => 'users.add_group', 'uses' => 'UsersController@add_group']);
+Route::post('users/{user}/remove_group/{group}', ['as' => 'users.remove_group', 'uses' => 'UsersController@remove_group']);
+
 Route::get('fleet_lists/{fleet_list}/aircrafts/{aircraft}/attachments/{attachment}/get_attachment', ['as' => 'fleet_lists.aircrafts.attachments.get_attachment', 'uses' => 'AttachmentsController@get_attachment']);
 
 Route::model('notes', 'Attachment');
@@ -26,6 +29,7 @@ Route::resource('fleet_lists', 'FleetListsController');
 Route::resource('fleet_lists.aircrafts', 'AircraftsController');
 Route::resource('fleet_lists.aircrafts.notes', 'NotesController');
 Route::resource('fleet_lists.aircrafts.attachments', 'AttachmentsController');
+Route::resource('users', 'UsersController');
 
 Auth::routes();
 
