@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Redirect;
 use Session;
 
 class UsersController extends Controller
@@ -30,7 +31,7 @@ class UsersController extends Controller
     ];
 
     protected $messages = [
-      'group_ids' => 'You must select at least one group.',
+      'groups' => 'You must select at least one group.',
     ];
 
     public function __construct() {
@@ -92,7 +93,7 @@ class UsersController extends Controller
 
     public function edit(User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return view('common.not_authorized');
       }
       $groups = Group::where('id', '>', '1' )->get();
@@ -101,7 +102,7 @@ class UsersController extends Controller
 
     public function update(Request $request, User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
 
@@ -118,7 +119,7 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
       $user->delete();
@@ -127,7 +128,7 @@ class UsersController extends Controller
 
     public function remove_group(User $user, $group_id){
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1 || $group_id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Group removal error: not authorized');
       }
 
@@ -142,7 +143,7 @@ class UsersController extends Controller
 
     public function add_group(User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return view('common.not_authorized');
       }
       $groups = Group::where('id', '>', '1')->whereNotIn('id', $user->groups->pluck('id'))->get();
@@ -151,7 +152,7 @@ class UsersController extends Controller
 
     public function store_group(Request $request, User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
 
