@@ -15,11 +15,14 @@ use Session;
 class UsersController extends Controller
 {
 
-    protected $rules = [
-      'name' => ['required'],
-      'email' => ['required', 'email'],
-      'groups'  => ['required', 'array', 'min:1', 'exists:groups,id'],
-    ];
+  protected $rules = [
+    'name' => ['required'],
+    'email' => ['required', 'email'],
+  ];
+
+  protected $group_rules = [
+    'groups'  => ['required', 'array', 'min:1', 'exists:groups,id'],
+  ];
 
     protected $create_rules = [
       'name' => ['unique:users'],
@@ -60,6 +63,7 @@ class UsersController extends Controller
       }
 
       $this->validate($request, $this->rules);
+      $this->validate($request, $this->group_rules);
       $this->validate($request, $this->create_rules);
       $input = Input::all();
       $user = User::create($input);
@@ -102,6 +106,7 @@ class UsersController extends Controller
       }
 
       $this->validate($request, $this->rules);
+      $this->validate($request, $this->group_rules);
       $input = array_except(Input::all(), '_method');
       $user->update($input);
 
@@ -133,5 +138,26 @@ class UsersController extends Controller
       $group = Group::findOrFail($group_id);
       $user->groups()->detach($group);
       return redirect(Session::get('backUrl'))->with('message', 'Group association removed');
+    }
+
+    public function add_group(User $user) {
+      $current_user = Auth::user();
+      if($current_user->id != 1){
+        return view('common.not_authorized');
+      }
+      $groups = Group::where('id', '>', '1')->whereNotIn('id', $user->groups->pluck('id'))->get();
+      return view('users.add_group', compact('user', 'groups'));
+    }
+
+    public function store_group(Request $request, User $user) {
+      $current_user = Auth::user();
+      if($current_user->id != 1){
+        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+      }
+
+      $this->validate($request, $this->group_rules);
+      $user->groups()->attach(Input::get('groups'));
+
+      return redirect(Session::get('backUrl'))->with('message', 'Group(s) added');
     }
 }
