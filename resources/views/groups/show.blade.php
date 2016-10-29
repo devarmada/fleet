@@ -3,15 +3,15 @@
 @section('content')
   <script>
   function ConfirmDelete()  {
-    var x = confirm("Are you sure you want to delete this user?");
+    var x = confirm("Are you sure you want to delete this group?");
     if (x)
       return true;
     else
       return false;
   }
 
-  function ConfirmDisassociate(group)  {
-    var x = confirm("Are you sure you want to remove this user from group " + group + "?");
+  function ConfirmDisassociate(user)  {
+    var x = confirm("Are you sure you want to remove the user " + user + " from this group?");
     if (x)
       return true;
     else
@@ -24,14 +24,13 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <h2>{{ $user->name }}</h2>
-                <h3>{{ $user->email }}</h3>
+                <h2>{{ $group->name }}</h2>
             </ul>
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
-                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('users.destroy', $user->id))) !!}
-                <a class="btn btn-primary" href="{{ route('users.edit', array($user->id)) }}">
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('groups.destroy', $group->id))) !!}
+                <a class="btn btn-primary" href="{{ route('groups.edit', array($group->id)) }}">
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
                 {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
@@ -44,21 +43,21 @@
   <table class="table table-striped">
     <thead>
         <tr style="text-align: center;">
-            <th width="85%">Group name</th>
+            <th width="85%">User name</th>
             <th width="15%">Action</th>
         </tr>
     </thead>
     <tbody>
-      @foreach( $user->groups as $group )
+      @foreach( $group->users as $user )
         <tr>
             <td>
-                <a href="{{  route('groups.show', $group->id) }}"
+                <a href="{{  route('users.show', $user->id) }}"
                    style="display: block; width: 100%; height: 100%;">
-                    {{ $group->name }}
+                    {{ $user->name }}
                 </a>
             </td>
             <td>
-                {!! Form::open(array('class' => 'form-inline', 'method' => 'POST', 'onsubmit' => 'return ConfirmDisassociate("' . $group->name . '")', 'route' => array('users.remove_group', $user->id, $group->id))) !!}
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'POST', 'onsubmit' => 'return ConfirmDisassociate("' . $user->name . '")', 'route' => array('groups.remove_user', $group->id, $user->id))) !!}
                 {!! Form::button('<span class="glyphicon glyphicon-resize-full"></span> Remove from group', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
                 {!! Form::close() !!}
             </td>
@@ -72,10 +71,10 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <a class="btn btn-primary" href="{{ route('users.add_group', $user->id, array('class' => 'btn btn-info')) }}">
-                    <span class="glyphicon glyphicon-plus"></span> Add group(s) association
+                <a class="btn btn-primary" href="{{ route('groups.add_user', $group->id, array('class' => 'btn btn-info')) }}">
+                    <span class="glyphicon glyphicon-plus"></span> Add user(s) to the group
                 </a>
-                <a class="btn btn-primary" href="{{ route('users.index') }}">
+                <a class="btn btn-primary" href="{{ route('groups.index') }}">
                     <span class="glyphicon glyphicon-hand-left"></span> Back
                 </a>
             </ul>

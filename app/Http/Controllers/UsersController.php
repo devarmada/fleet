@@ -10,19 +10,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Redirect;
 use Session;
 
 class UsersController extends Controller
 {
 
-  protected $rules = [
-    'name' => ['required'],
-    'email' => ['required', 'email'],
-  ];
+    protected $rules = [
+      'name' => ['required'],
+      'email' => ['required', 'email'],
+    ];
 
-  protected $group_rules = [
-    'groups'  => ['required', 'array', 'min:1', 'exists:groups,id'],
-  ];
+    protected $group_rules = [
+      'groups'  => ['required', 'array', 'min:1', 'exists:groups,id'],
+    ];
 
     protected $create_rules = [
       'name' => ['unique:users'],
@@ -30,7 +31,7 @@ class UsersController extends Controller
     ];
 
     protected $messages = [
-      'group_ids' => 'You must select at least one group.',
+      'groups' => 'You must select at least one group.',
     ];
 
     public function __construct() {
@@ -62,9 +63,9 @@ class UsersController extends Controller
         return redirect(Session::get('backUrl'))->with('message', 'Create error: not authorized');
       }
 
-      $this->validate($request, $this->rules);
-      $this->validate($request, $this->group_rules);
-      $this->validate($request, $this->create_rules);
+      $this->validate($request, $this->rules, $messages);
+      $this->validate($request, $this->group_rules, $messages);
+      $this->validate($request, $this->create_rules, $messages);
       $input = Input::all();
       $user = User::create($input);
 
@@ -92,7 +93,7 @@ class UsersController extends Controller
 
     public function edit(User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return view('common.not_authorized');
       }
       $groups = Group::where('id', '>', '1' )->get();
@@ -101,12 +102,12 @@ class UsersController extends Controller
 
     public function update(Request $request, User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
 
-      $this->validate($request, $this->rules);
-      $this->validate($request, $this->group_rules);
+      $this->validate($request, $this->rules, $messages);
+      $this->validate($request, $this->group_rules, $messages);
       $input = array_except(Input::all(), '_method');
       $user->update($input);
 
@@ -118,7 +119,7 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
       $user->delete();
@@ -127,7 +128,7 @@ class UsersController extends Controller
 
     public function remove_group(User $user, $group_id){
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1 || $group_id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Group removal error: not authorized');
       }
 
@@ -142,7 +143,7 @@ class UsersController extends Controller
 
     public function add_group(User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return view('common.not_authorized');
       }
       $groups = Group::where('id', '>', '1')->whereNotIn('id', $user->groups->pluck('id'))->get();
@@ -151,11 +152,11 @@ class UsersController extends Controller
 
     public function store_group(Request $request, User $user) {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if($current_user->id != 1 || $user->id == 1){
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
 
-      $this->validate($request, $this->group_rules);
+      $this->validate($request, $this->group_rules, $messages);
       $user->groups()->attach(Input::get('groups'));
 
       return redirect(Session::get('backUrl'))->with('message', 'Group(s) added');
