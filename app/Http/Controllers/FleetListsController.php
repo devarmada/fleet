@@ -75,7 +75,7 @@ class FleetListsController extends Controller {
   public function destroy(FleetList $fleet_list) {
     $user = Auth::user();
     if(!$fleet_list->is_accessible_by($user)){
-      return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+      return redirect(Session::get('backUrl'))->with('message', 'Delete error: not authorized');
     }
     $fleet_list->delete();
     return Redirect::route('fleet_lists.index')->with('message', 'List deleted.');

@@ -2,8 +2,8 @@
 
 @section('content')
   <script>
-    function ConfirmDelete()  {
-    var x = confirm("Are you sure you want to delete this list?");
+  function ConfirmDelete(what = "list")  {
+    var x = confirm("Are you sure you want to delete this " + what +"?");
     if (x)
       return true;
     else
@@ -75,7 +75,7 @@
                 </a>
             </td>
             <td>
-                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
+                {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete("aircraft")' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
                 <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
