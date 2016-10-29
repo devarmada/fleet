@@ -31,6 +31,7 @@ Route::resource('fleet_lists.aircrafts', 'AircraftsController');
 Route::resource('fleet_lists.aircrafts.notes', 'NotesController');
 Route::resource('fleet_lists.aircrafts.attachments', 'AttachmentsController');
 Route::resource('users', 'UsersController');
+Route::resource('groups', 'GroupsController');
 
 Auth::routes();
 

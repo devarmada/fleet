@@ -15,14 +15,14 @@ use Session;
 class UsersController extends Controller
 {
 
-  protected $rules = [
-    'name' => ['required'],
-    'email' => ['required', 'email'],
-  ];
+    protected $rules = [
+      'name' => ['required'],
+      'email' => ['required', 'email'],
+    ];
 
-  protected $group_rules = [
-    'groups'  => ['required', 'array', 'min:1', 'exists:groups,id'],
-  ];
+    protected $group_rules = [
+      'groups'  => ['required', 'array', 'min:1', 'exists:groups,id'],
+    ];
 
     protected $create_rules = [
       'name' => ['unique:users'],
@@ -62,9 +62,9 @@ class UsersController extends Controller
         return redirect(Session::get('backUrl'))->with('message', 'Create error: not authorized');
       }
 
-      $this->validate($request, $this->rules);
-      $this->validate($request, $this->group_rules);
-      $this->validate($request, $this->create_rules);
+      $this->validate($request, $this->rules, $messages);
+      $this->validate($request, $this->group_rules, $messages);
+      $this->validate($request, $this->create_rules, $messages);
       $input = Input::all();
       $user = User::create($input);
 
@@ -105,8 +105,8 @@ class UsersController extends Controller
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
 
-      $this->validate($request, $this->rules);
-      $this->validate($request, $this->group_rules);
+      $this->validate($request, $this->rules, $messages);
+      $this->validate($request, $this->group_rules, $messages);
       $input = array_except(Input::all(), '_method');
       $user->update($input);
 
@@ -155,7 +155,7 @@ class UsersController extends Controller
         return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
       }
 
-      $this->validate($request, $this->group_rules);
+      $this->validate($request, $this->group_rules, $messages);
       $user->groups()->attach(Input::get('groups'));
 
       return redirect(Session::get('backUrl'))->with('message', 'Group(s) added');
