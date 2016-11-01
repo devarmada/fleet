@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => 'admin@example.com',
-        'name' => 'Fleet.air Administrator',
+        'name' => 'Fleet.aero Administrator',
     ],
 
     /*
