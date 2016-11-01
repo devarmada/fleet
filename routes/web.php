@@ -15,6 +15,8 @@ Route::get('/', function () {
     return redirect()->route('fleet_lists.index');
 });
 
+Route::post('password/new', ['as' => 'password.new', 'uses' => 'MyPasswordController@new_password']);
+
 Route::get('users/{user}/add_group', ['as' => 'users.add_group', 'uses' => 'UsersController@add_group']);
 Route::patch('users/{user}/store_group', ['as' => 'users.store_group', 'uses' => 'UsersController@store_group']);
 Route::post('users/{user}/remove_group/{group}', ['as' => 'users.remove_group', 'uses' => 'UsersController@remove_group']);
@@ -25,7 +27,7 @@ Route::post('groups/{group}/remove_user/{user}', ['as' => 'groups.remove_user', 
 
 Route::get('fleet_lists/{fleet_list}/aircrafts/{aircraft}/attachments/{attachment}/get_attachment', ['as' => 'fleet_lists.aircrafts.attachments.get_attachment', 'uses' => 'AttachmentsController@get_attachment']);
 
-Route::model('notes', 'Attachment');
+Route::model('attachments', 'Attachment');
 Route::model('notes', 'Note');
 Route::model('aircrafts', 'Aircraft');
 Route::model('fleet_lists', 'FleetList');

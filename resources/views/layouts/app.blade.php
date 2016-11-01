@@ -64,15 +64,35 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ url('/logout') }}"
-                                        onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
+                                  <a href="{{ url('/home') }}" >
+                                      User dashboard
+                                  </a>
+                                </li>
 
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
+                                @if (Auth::user() and Auth::user()->id == 1)
+                                  <li>
+                                    <a href="{{ url('/users') }}" >
+                                        User management
+                                    </a>
+                                  </li>
+
+                                  <li>
+                                    <a href="{{ url('/groups') }}" >
+                                        Group management
+                                    </a>
+                                  </li>
+                                @endif
+
+                                <li>
+                                  <a href="{{ url('/logout') }}"
+                                      onclick="event.preventDefault();
+                                               document.getElementById('logout-form').submit();">
+                                      Logout
+                                  </a>
+
+                                  <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                      {{ csrf_field() }}
+                                  </form>
                                 </li>
                             </ul>
                         </li>
