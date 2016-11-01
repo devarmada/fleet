@@ -1,6 +1,10 @@
 vendor/
 node_modules/
 
+DB_*.sql
+.rsync_exclude
+syncr.sh
+
 # Laravel 4 specific
 bootstrap/compiled.php
 app/storage/
@@ -21,4 +25,3 @@ Homestead.json
 Homestead.yaml
 .env
 NOTES.TXT
-.NOTES.TXT.swp
