@@ -58,8 +58,8 @@ class AircraftsController extends Controller {
     if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
       return view('common.not_authorized');
     }
-    Session::put('backUrl', route('fleet_lists.aircrafts.show', array($fleet_list, $aircraft)));
-    return view('aircrafts.show', compact('fleet_list', 'aircraft'));
+    Session::put('backUrl', route('fleet_lists.aircrafts.show', array($fleet_list, $aircraft, $user)));
+    return view('aircrafts.show', compact('fleet_list', 'aircraft', 'user'));
   }
 
   public function edit(FleetList $fleet_list, Aircraft $aircraft) {
