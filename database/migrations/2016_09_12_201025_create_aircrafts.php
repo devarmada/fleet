@@ -19,11 +19,9 @@ class CreateAircrafts extends Migration
             $table->integer('year')->unsigned()->default(0);
             $table->text('description')->nullable();
             $table->integer('fleet_list_id')->unsigned();
-            $table->foreign('fleet_list_id')->
-                    references('id')->on('fleet_lists')->onDelete('RESTRICT');
+            $table->foreign('fleet_list_id')->references('id')->on('fleet_lists')->onDelete('RESTRICT');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->
-                    references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

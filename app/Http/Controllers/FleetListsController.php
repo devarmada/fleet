@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\FleetList;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Redirect;
@@ -77,7 +78,15 @@ class FleetListsController extends Controller {
     if(!$fleet_list->is_accessible_by($user)){
       return redirect(Session::get('backUrl'))->withErrors('Delete error: not authorized');
     }
-    $fleet_list->delete();
+    try {
+      $fleet_list->delete();
+    } catch (QueryException $e) {
+      $msg = $e->getMessage();
+      if($e->getcode() == "23000"){
+        $msg = "this list is not empty.";
+      }
+      return redirect (Session::get('backUrl'))->withErrors('Delete error: ' . $msg);
+    }
     return Redirect::route('fleet_lists.index')->with('message', 'List deleted.');
   }
 

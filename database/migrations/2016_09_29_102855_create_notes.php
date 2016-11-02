@@ -18,11 +18,9 @@ class CreateNotes extends Migration
             $table->string('title')->default('');
             $table->text('text')->nullable();
             $table->integer('aircraft_id')->unsigned();
-            $table->foreign('aircraft_id')->
-                    references('id')->on('aircrafts')->onDelete('RESTRICT');
+            $table->foreign('aircraft_id')->references('id')->on('aircrafts')->onDelete('RESTRICT');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->
-                    references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Note;
@@ -86,7 +87,15 @@ class AircraftsController extends Controller {
     if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
       return redirect (Session::get('backUrl'))->withErrors('Delete error: not authorized');
     }
-    $aircraft->delete();
+    try {
+      $aircraft->delete();
+    } catch (QueryException $e) {
+      $msg = $e->getMessage();
+      if($e->getcode() == "23000"){
+        $msg = "this aircraft has notes and/or attachments connected.";
+      }
+      return redirect (Session::get('backUrl'))->withErrors('Delete error: ' . $msg);
+    }
     return Redirect::route('fleet_lists.show', $fleet_list->id)->with('message', 'Aircraft deleted.');
   }
 
