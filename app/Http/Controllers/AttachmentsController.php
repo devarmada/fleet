@@ -52,7 +52,7 @@ class AttachmentsController extends Controller
   public function store(FleetList $fleet_list, Aircraft $aircraft, Request $request) {
     $user = Auth::user();
     if(!$fleet_list->is_accessible_by($user)){
-      return redirect(Session::get('backUrl'))->with('message', 'Create error: not authorized');
+      return redirect(Session::get('backUrl'))->withErrors('Create error: not authorized');
     }
 
     $this->validate($request, $this->rules);
@@ -60,7 +60,7 @@ class AttachmentsController extends Controller
 
     $input = Input::all();
     if(!$request->hasFile('file_name')){
-      return redirect(Session::get('backUrl'))->with('message', 'Create error: file not specified');
+      return redirect(Session::get('backUrl'))->withErrors('Create error: file not specified');
     }
 
     $input = array_merge($input, $this->store_file($request->file('file_name')));
@@ -100,7 +100,7 @@ class AttachmentsController extends Controller
   public function update(Request $request, FleetList $fleet_list, Aircraft $aircraft, Attachment $attachment) {
      $user = Auth::user();
      if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user) || $attachment->user != $user){
-       return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+       return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
      }
      $this->validate($request, $this->rules);
      $input = array_except(Input::all(), '_method');
@@ -116,7 +116,7 @@ class AttachmentsController extends Controller
   public function destroy(FleetList $fleet_list, Aircraft $aircraft, Attachment $attachment) {
      $user = Auth::user();
      if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user) || $attachment->user != $user){
-       return redirect (Session::get('backUrl'))->with('message', 'Delete error: not authorized');
+       return redirect (Session::get('backUrl'))->withErrors('Delete error: not authorized');
      }
 
      $attachment->delete();

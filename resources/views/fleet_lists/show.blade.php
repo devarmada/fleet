@@ -65,7 +65,7 @@
             <td>
                 <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
                    style="display: block; width: 100%; height: 100%;">
-                    {{ $aircraft->description }}
+                    {{ $aircraft->description ? $aircraft->description : "-" }}
                 </a>
             </td>
             <td>

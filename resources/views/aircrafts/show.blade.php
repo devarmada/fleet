@@ -38,6 +38,7 @@
     @if ( !$aircraft->notes->count() )
       This aircraft has no notes.
     @else
+      <h2>Notes</h2>
       <table class="table table-striped">
         <thead>
             <tr style="text-align: center;">
@@ -82,6 +83,7 @@
     @if ( !$aircraft->attachments->count() )
       This aircraft has no attachments.
     @else
+      <h2>Attachments</h2>
       <table class="table table-striped">
         <thead>
             <tr style="text-align: center;">
