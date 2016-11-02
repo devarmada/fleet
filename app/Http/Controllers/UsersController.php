@@ -60,7 +60,7 @@ class UsersController extends Controller
     public function store(Request $request) {
       $current_user = Auth::user();
       if($current_user->id != 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Create error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Create error: not authorized');
       }
 
       $this->validate($request, $this->rules, $messages);
@@ -103,7 +103,7 @@ class UsersController extends Controller
     public function update(Request $request, User $user) {
       $current_user = Auth::user();
       if($current_user->id != 1 || $user->id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
       }
 
       $this->validate($request, $this->rules, $messages);
@@ -120,7 +120,7 @@ class UsersController extends Controller
     {
       $current_user = Auth::user();
       if($current_user->id != 1 || $user->id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
       }
       $user->delete();
       return Redirect::route('users.index')->with('message', 'User deleted.');
@@ -129,11 +129,11 @@ class UsersController extends Controller
     public function remove_group(User $user, $group_id){
       $current_user = Auth::user();
       if($current_user->id != 1 || $user->id == 1 || $group_id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Group removal error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Group removal error: not authorized');
       }
 
       if($user->groups()->count() < 2){
-        return redirect(Session::get('backUrl'))->with('message', 'Group removal error: cannot remove the only group the user belongs to');
+        return redirect(Session::get('backUrl'))->withErrors('Group removal error: cannot remove the only group the user belongs to');
       }
 
       $group = Group::findOrFail($group_id);
@@ -153,10 +153,10 @@ class UsersController extends Controller
     public function store_group(Request $request, User $user) {
       $current_user = Auth::user();
       if($current_user->id != 1 || $user->id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
       }
 
-      $this->validate($request, $this->group_rules, $messages);
+      $this->validate($request, $this->group_rules, $this->messages);
       $user->groups()->attach(Input::get('groups'));
 
       return redirect(Session::get('backUrl'))->with('message', 'Group(s) added');

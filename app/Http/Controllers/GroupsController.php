@@ -63,7 +63,7 @@ class GroupsController extends Controller
     {
       $current_user = Auth::user();
       if($current_user->id != 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Create error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Create error: not authorized');
       }
 
       $this->validate($request, $this->rules);
@@ -103,7 +103,7 @@ class GroupsController extends Controller
     {
       $current_user = Auth::user();
       if($current_user->id != 1 || $group->id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
       }
 
       $this->validate($request, $this->rules);
@@ -122,7 +122,7 @@ class GroupsController extends Controller
     {
       $current_user = Auth::user();
       if($current_user->id != 1 || $group->id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Delete error: not authorized');
       }
       $group->delete();
       return Redirect::route('groups.index')->with('message', 'Group deleted.');
@@ -131,7 +131,7 @@ class GroupsController extends Controller
     public function remove_user(Group $group, $user_id){
       $current_user = Auth::user();
       if($current_user->id != 1 || $group->id == 1 || $user_id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'User removal error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('User removal error: not authorized');
       }
 
       $user = User::findOrFail($user_id);
@@ -151,7 +151,7 @@ class GroupsController extends Controller
     public function store_user(Request $request, Group $group) {
       $current_user = Auth::user();
       if($current_user->id != 1 || $group->id == 1){
-        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+        return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
       }
 
       $this->validate($request, $this->user_rules);

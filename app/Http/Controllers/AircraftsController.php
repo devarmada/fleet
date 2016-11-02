@@ -45,7 +45,7 @@ class AircraftsController extends Controller {
   public function store(FleetList $fleet_list, Request $request) {
     $user = Auth::user();
     if(!$fleet_list->is_accessible_by($user)){
-      return redirect(Session::get('backUrl'))->with('message', 'Create error: not authorized');
+      return redirect(Session::get('backUrl'))->withErrors('Create error: not authorized');
     }
     $this->validate($request, $this->rules);
     $input = Input::all();
@@ -73,7 +73,7 @@ class AircraftsController extends Controller {
   public function update(Request $request, FleetList $fleet_list, Aircraft $aircraft) {
     $user = Auth::user();
     if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
-      return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
+      return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
     }
     $this->validate($request, $this->rules);
     $input = array_except(Input::all(), '_method');
@@ -84,7 +84,7 @@ class AircraftsController extends Controller {
   public function destroy(FleetList $fleet_list, Aircraft $aircraft) {
     $user = Auth::user();
     if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
-      return redirect (Session::get('backUrl'))->with('message', 'Delete error: not authorized');
+      return redirect (Session::get('backUrl'))->withErrors('Delete error: not authorized');
     }
     $aircraft->delete();
     return Redirect::route('fleet_lists.show', $fleet_list->id)->with('message', 'Aircraft deleted.');
