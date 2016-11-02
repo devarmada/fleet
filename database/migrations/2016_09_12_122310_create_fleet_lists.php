@@ -17,11 +17,9 @@ class CreateFleetLists extends Migration {
             $table->string('name')->default('');
             $table->text('description')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->
-                    references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->integer('group_id')->unsigned()->nullable();
-            $table->foreign('group_id')->
-                    references('id')->on('groups')->onDelete('SET NULL');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('SET NULL');
             $table->timestamps();
         });
     }
