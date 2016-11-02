@@ -38,7 +38,7 @@ class AttachmentsController extends Controller
       return view('common.not_authorized');
     }
     Session::put('backUrl', route('fleet_lists.aircrafts.attachments.index', [$fleet_list, $aircraft]));
-    return view('aircrafts.show', compact('fleet_list','aircraft'));
+    return view('aircrafts.show', compact('fleet_list','aircraft', 'user'));
   }
 
   public function create(FleetList $fleet_list, Aircraft $aircraft) {
@@ -66,7 +66,7 @@ class AttachmentsController extends Controller
     $input = array_merge($input, $this->store_file($request->file('file_name')));
 
     Attachment::create($input);
-    return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft])->with('message', 'Attachment created.');
+    return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft, $user])->with('message', 'Attachment created.');
   }
 
   public function show(FleetList $fleet_list, Aircraft $aircraft, Attachment $attachment) {
@@ -74,8 +74,8 @@ class AttachmentsController extends Controller
     if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
       return view('common.not_authorized');
     }
-    Session::put('backUrl', route('fleet_lists.aircrafts.attachments.show', array($fleet_list, $aircraft, $attachment)));
-    return view('attachments.show', compact('fleet_list', 'aircraft', 'attachment'));
+    Session::put('backUrl', route('fleet_lists.aircrafts.attachments.show', array($fleet_list, $aircraft, $attachment, $user)));
+    return view('attachments.show', compact('fleet_list', 'aircraft', 'attachment', 'user'));
   }
 
   public function get_attachment(FleetList $fleet_list, Aircraft $aircraft, Attachment $attachment) {
@@ -91,7 +91,7 @@ class AttachmentsController extends Controller
 
   public function edit(FleetList $fleet_list, Aircraft $aircraft, Attachment $attachment) {
      $user = Auth::user();
-     if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+     if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user) || $attachment->user != $user){
        return view('common.not_authorized');
      }
      return view('attachments.edit', compact('user', 'fleet_list', 'aircraft', 'attachment'));
@@ -99,7 +99,7 @@ class AttachmentsController extends Controller
 
   public function update(Request $request, FleetList $fleet_list, Aircraft $aircraft, Attachment $attachment) {
      $user = Auth::user();
-     if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+     if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user) || $attachment->user != $user){
        return redirect(Session::get('backUrl'))->with('message', 'Update error: not authorized');
      }
      $this->validate($request, $this->rules);
@@ -115,14 +115,14 @@ class AttachmentsController extends Controller
 
   public function destroy(FleetList $fleet_list, Aircraft $aircraft, Attachment $attachment) {
      $user = Auth::user();
-     if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+     if($aircraft != $attachment->aircraft || $fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user) || $attachment->user != $user){
        return redirect (Session::get('backUrl'))->with('message', 'Delete error: not authorized');
      }
 
      $attachment->delete();
      Storage::disk('local')->delete($attachment->file_path);
 
-     return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id])->with('message', 'Attachment deleted.');
+     return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id, $user])->with('message', 'Attachment deleted.');
   }
 
   private function store_file($file){
