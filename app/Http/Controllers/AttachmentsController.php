@@ -22,7 +22,9 @@ class AttachmentsController extends Controller
     'title' => ['required'],
     'aircraft_id' => ['required'],
     'user_id' => ['required'],
+    'file_name' => ['max:10240', 'mimes:gpx,doc,dot,pdf,rtf,gmx,kml,kmz,xkml,xls,xlm,xla,xlc,xlt,xlw,mpp,mpt,odc,otc,odb,odf,odg,odi,oti,odp.ods,odt,odm,oth,pptx,sldx,ppsx,xslx,docx,rm,rmvb,sdc,sda,sdd,smf,sdw,vor,sgl,sxc,sxd,sxi,sxm,sxw,sxg,vsd,wpd,7z,abw,bz,bz2,boz,vst,vss,vsw,gnumeric,wri,rar,swf,tar,xhtml,xht,xml,xsl,dtd,xslt,zip,adp,au,snd,m4a,mp4a,mpga,mp2,mp2a,mp3,m2a,m3a,oga,ogg,spx,aac,flac,mka,m3u,wma,ram,ra,rmp,wav,bmp,gif,jpeg,jpg,jpe,png,btif,sgi,svg,svgz,tiff,tif,psd,xbm,xpm,csv,html,htm,txt,text,conf,def,list,log,in,rtx,sgml,sgm,vcard,vcs,vcf,3gp,3g2,jpgv,jpm,jpgm,mp4,mp4v,mpg4,mpeg,mpg,mpe,m1v,m2v,ogv,qt,mov,mxu,m4u,webm,f4v,fli,flv,m4v,mkv,mk3d,mks,asf,asx,wm,wmx,wvx,avi'],
   ];
+  // for mime types see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 
   protected $create_rules = [
     'file_name' => ['required'],
