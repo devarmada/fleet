@@ -48,7 +48,7 @@
         </tr>
     </thead>
     <tbody>
-      @foreach( $group->users as $user )
+      @foreach( $group->get_regular_users() as $user )
         <tr>
             <td>
                 <a href="{{  route('users.show', $user->id) }}"

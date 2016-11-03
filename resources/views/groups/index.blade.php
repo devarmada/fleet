@@ -16,7 +16,7 @@
   <table class="table table-striped">
     <thead>
       <tr style="text-align: center;">
-        <th width="75%">Name</th>>
+        <th width="75%">Name</th>
         <th width="25%">Action</th>
       </tr>
     </thead>
