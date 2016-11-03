@@ -31,8 +31,14 @@ class Attachment extends Model
       $icon="application-vnd.ms-excel.png";
     } elseif(preg_match('/application\/.*powerpoint.*/', $this->file_type)){
       $icon="application-vnd.ms-powerpoint.png";
-    } elseif(preg_match('/application\/.*(html|xml).*/', $this->file_type)){
-      $icon="application-xhtml+xml.png";
+    } elseif(preg_match('/application\/.*zip.*/', $this->file_type)){
+      $icon="application-zip.png";
+    } elseif(preg_match('/(application|text)\/.*vcal.*/', $this->file_type)){
+      $icon="text-vcalendar.png";
+    } elseif(preg_match('/(application|text)\/.*csv.*/', $this->file_type)){
+      $icon="text-csv.png";
+    } elseif(preg_match('/(application|text)\/.*(html|xml).*/', $this->file_type)){
+      $icon="application-xhtml-xml.png";
     } elseif(explode("/", $this->file_type)[0] == "audio"){
       $icon="audio-x-generic.png";
     } elseif(explode("/", $this->file_type)[0] == "text"){
