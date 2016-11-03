@@ -65,4 +65,8 @@ class User extends Authenticatable {
         return $this->groups->contains('id', 1);
     }
 
+    public function is_native_admin() {
+        return $this->id == 1;
+    }
+
 }

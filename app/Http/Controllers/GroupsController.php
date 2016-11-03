@@ -41,8 +41,8 @@ class GroupsController extends Controller
     public function index()
     {
       Session::put('backUrl', route('groups.index'));
-      $user = Auth::user();
-      if($user->id != 1){
+      $current_user = Auth::user();
+      if(!$current_user->is_admin()){
         return view('common.not_authorized');
       }
       $groups = Group::all();
