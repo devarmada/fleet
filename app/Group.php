@@ -15,6 +15,11 @@ class Group extends Model {
         'name',
     ];
 
+    public static function get_regular_groups() {
+      $groups = Group::where('id', '>', '1')->get();
+      return $groups;
+    }
+
     public static function get_groups_but($excl_groups) {
       $groups = Group::whereNotIn('id', $excl_groups->pluck('id'))->get();
       return $groups;

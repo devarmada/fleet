@@ -69,4 +69,11 @@ class User extends Authenticatable {
         return $this->id == 1;
     }
 
+    public function get_allowed_groups() {
+        if($this->is_admin()){
+          return Group::get_regular_groups();
+        }
+        return $this->groups()->where('id', '!=', '1')->get();
+    }
+
 }
