@@ -29,7 +29,7 @@
           </a>
         </ul>
 
-        @if($user == $attachment->user)
+        @if($attachment->is_accessible_by($current_user))
           <!-- Right Side Of Navbar -->
           <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
               {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.attachments.destroy', $fleet_list->id, $aircraft->id, $attachment->id))) !!}
