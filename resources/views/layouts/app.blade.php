@@ -69,7 +69,7 @@
                                   </a>
                                 </li>
 
-                                @if (Auth::user() and Auth::user()->id == 1)
+                                @if (Auth::user() and Auth::user()->is_admin())
                                   <li>
                                     <a href="{{ url('/users') }}" >
                                         User management
