@@ -87,8 +87,8 @@
       <table class="table table-striped">
         <thead>
             <tr style="text-align: center;">
-                <th width="50%">Title</th>
-                <th width="20%">Type</th>
+                <th width="45%">Title</th>
+                <th width="25%">Preview</th>
                 <th width="15%">User</th>
                 <th width="15%">Action</th>
             </tr>
@@ -105,7 +105,11 @@
                 <td>
                     <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}"
                        style="display: block; width: 100%; height: 100%;">
-                        {{ $attachment->file_type }}
+                      @if(explode("/", $attachment->file_type)[0] == 'image')
+                        <img src="{{ route('fleet_lists.aircrafts.attachments.get_attachment', [$fleet_list, $aircraft, $attachment]) }}" class="img-thumbnail" width="128" height="128" />
+                      @else
+                        <img src="{{ "/img/" . $attachment->get_icon() }}" class="img-thumbnail" width="128" height="128" />
+                      @endif
                     </a>
                 </td>
                 <td>

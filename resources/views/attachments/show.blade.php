@@ -21,6 +21,11 @@
              target="_blank" style="display: block; width: 100%; height: 100%;">
             <h2>{{ $attachment->title }}</h2>
             <h3>{{ $attachment->file_type }}</h3>
+            @if(explode("/", $attachment->file_type)[0] == 'image')
+              <img src="{{ route('fleet_lists.aircrafts.attachments.get_attachment', [$fleet_list, $aircraft, $attachment]) }}" class="img-thumbnail" width="400" height="400" />
+            @else
+              <img src="{{ "/img/" . $attachment->get_icon() }}" class="img-thumbnail" width="256" height="256" />
+            @endif
           </a>
         </ul>
 
