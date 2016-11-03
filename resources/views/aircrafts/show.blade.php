@@ -63,7 +63,7 @@
                     </a>
                 </td>
                 <td>
-                  @if($user == $note->user)
+                  @if($note->is_accessible_by($user))
                     {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete("note")' ,'route' => array('fleet_lists.aircrafts.notes.destroy', $fleet_list->id, $aircraft->id, $note->id))) !!}
                     <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.notes.edit', array($fleet_list->id, $aircraft->id, $note->id)) }}">
                         <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -119,7 +119,7 @@
                     </a>
                 </td>
                 <td>
-                  @if($user == $attachment->user)
+                  @if($attachment->is_accessible_by($user))
                     {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete("attachment")' ,'route' => array('fleet_lists.aircrafts.attachments.destroy', $fleet_list->id, $aircraft->id, $attachment->id))) !!}
                     <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.attachments.edit', array($fleet_list->id, $aircraft->id, $attachment->id)) }}">
                         <span class="glyphicon glyphicon-pencil"></span> Edit

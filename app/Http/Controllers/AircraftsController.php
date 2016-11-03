@@ -27,8 +27,8 @@ class AircraftsController extends Controller {
   }
 
   public function index(FleetList $fleet_list) {
-    $user = Auth::user();
-    if(!$fleet_list->is_accessible_by($user)){
+    $current_user = Auth::user();
+    if(!$fleet_list->is_accessible_by($current_user)){
       return view('common.not_authorized');
     }
     Session::put('backUrl', route('fleet_lists.aircrafts.index', $fleet_list));
@@ -36,16 +36,16 @@ class AircraftsController extends Controller {
   }
 
   public function create(FleetList $fleet_list) {
-    $user = Auth::user();
-    if(!$fleet_list->is_accessible_by($user)){
+    $current_user = Auth::user();
+    if(!$fleet_list->is_accessible_by($current_user)){
       return view('common.not_authorized');
     }
-    return view('aircrafts.create', compact('user', 'fleet_list'));
+    return view('aircrafts.create', compact('current_user', 'fleet_list'));
   }
 
   public function store(FleetList $fleet_list, Request $request) {
-    $user = Auth::user();
-    if(!$fleet_list->is_accessible_by($user)){
+    $current_user = Auth::user();
+    if(!$fleet_list->is_accessible_by($current_user)){
       return redirect(Session::get('backUrl'))->withErrors('Create error: not authorized');
     }
     $this->validate($request, $this->rules);
@@ -64,16 +64,16 @@ class AircraftsController extends Controller {
   }
 
   public function edit(FleetList $fleet_list, Aircraft $aircraft) {
-    $user = Auth::user();
-    if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+    $current_user = Auth::user();
+    if($fleet_list->id != $aircraft->fleet_list->id || !$fleet_list->is_accessible_by($current_user)){
       return view('common.not_authorized');
     }
-    return view('aircrafts.edit', compact('user', 'fleet_list', 'aircraft'));
+    return view('aircrafts.edit', compact('current_user', 'fleet_list', 'aircraft'));
   }
 
   public function update(Request $request, FleetList $fleet_list, Aircraft $aircraft) {
-    $user = Auth::user();
-    if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+    $current_user = Auth::user();
+    if($fleet_list->id != $aircraft->fleet_list->id || !$fleet_list->is_accessible_by($current_user)){
       return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
     }
     $this->validate($request, $this->rules);
@@ -83,8 +83,8 @@ class AircraftsController extends Controller {
   }
 
   public function destroy(FleetList $fleet_list, Aircraft $aircraft) {
-    $user = Auth::user();
-    if($fleet_list != $aircraft->fleet_list || !$fleet_list->is_accessible_by($user)){
+    $current_user = Auth::user();
+    if($fleet_list->id != $aircraft->fleet_list->id || !$fleet_list->is_accessible_by($current_user)){
       return redirect (Session::get('backUrl'))->withErrors('Delete error: not authorized');
     }
     try {

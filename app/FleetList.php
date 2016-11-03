@@ -9,14 +9,14 @@ class FleetList extends Model {
     protected $guarded = [];
 
     public static function get_all_visible($user){
-      if($user->id==1){
+      if($user->is_admin()){
         return FleetList::all();
       }
       return FleetList::all()->whereIn('group_id', $user->groups()->pluck('id'));
     }
 
     public function is_accessible_by(User $user) {
-      if($user->id==1){
+      if($user->is_admin()){
         return true;
       }
       return $user->groups()->pluck('id')->contains($this->group->id);

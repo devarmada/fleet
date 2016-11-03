@@ -41,28 +41,28 @@ class GroupsController extends Controller
     public function index()
     {
       Session::put('backUrl', route('groups.index'));
-      $user = Auth::user();
-      if($user->id != 1){
+      $current_user = Auth::user();
+      if(!$current_user->is_admin()){
         return view('common.not_authorized');
       }
-      $groups = Group::where('id', '>', '1')->get();
+      $groups = Group::all();
       return view('groups.index', compact('groups'));
     }
 
     public function create()
     {
-      $user = Auth::user();
-      if($user->id != 1){
+      $current_user = Auth::user();
+      if(!$current_user->is_admin()){
         return view('common.not_authorized');
       }
-      $users = User::where('id', '>', '1' )->get();
+      $users = User::get_regular_users();
       return view('groups.create', compact('users'));
     }
 
     public function store(Request $request)
     {
       $current_user = Auth::user();
-      if($current_user->id != 1){
+      if(!$current_user->is_admin()){
         return redirect(Session::get('backUrl'))->withErrors('Create error: not authorized');
       }
 
@@ -82,7 +82,7 @@ class GroupsController extends Controller
     public function show(Group $group)
     {
       $current_user = Auth::user();
-      if($current_user->id != 1 || $group->id == 1){
+      if(!$current_user->is_admin()){
         return view('common.not_authorized');
       }
       Session::put('backUrl', route('groups.show', $group));
@@ -92,17 +92,17 @@ class GroupsController extends Controller
     public function edit(Group $group)
     {
       $current_user = Auth::user();
-      if($current_user->id != 1 || $group->id == 1){
+      if(!$current_user->is_admin()){
         return view('common.not_authorized');
       }
-      $users = User::where('id', '>', '1' )->get();
+      $users = User::get_regular_users();
       return view('groups.edit', compact('group', 'users'));
     }
 
     public function update(Request $request, Group $group)
     {
       $current_user = Auth::user();
-      if($current_user->id != 1 || $group->id == 1){
+      if(!$current_user->is_admin()){
         return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
       }
 
@@ -112,6 +112,11 @@ class GroupsController extends Controller
       $group->update($input);
 
       if(Input::get('users')){
+        if($group->is_admin()){
+          $users = Input::get('users');
+          array_push($users, User::get_admin()->id);
+          Input::merge(array('users' => $users));
+        }
         $group->users()->sync(Input::get('users'));
       }
 
@@ -121,7 +126,7 @@ class GroupsController extends Controller
     public function destroy(Group $group)
     {
       $current_user = Auth::user();
-      if($current_user->id != 1 || $group->id == 1){
+      if(!$current_user->is_admin() || $group->is_admin()){
         return redirect(Session::get('backUrl'))->withErrors('Delete error: not authorized');
       }
       $group->delete();
@@ -130,27 +135,27 @@ class GroupsController extends Controller
 
     public function remove_user(Group $group, $user_id){
       $current_user = Auth::user();
-      if($current_user->id != 1 || $group->id == 1 || $user_id == 1){
+      $user = User::findOrFail($user_id);
+      if(!$current_user->is_admin() || $user->is_admin()){
         return redirect(Session::get('backUrl'))->withErrors('User removal error: not authorized');
       }
 
-      $user = User::findOrFail($user_id);
       $group->users()->detach($user);
       return redirect(Session::get('backUrl'))->with('message', 'User removed from group');
     }
 
     public function add_user(Group $group) {
       $current_user = Auth::user();
-      if($current_user->id != 1 || $group->id == 1){
+      if(!$current_user->is_admin()){
         return view('common.not_authorized');
       }
-      $users = User::where('id', '>', '1')->whereNotIn('id', $group->users->pluck('id'))->get();
+      $users = User::get_regular_users_but($group->users);
       return view('groups.add_user', compact('group', 'users'));
     }
 
     public function store_user(Request $request, Group $group) {
       $current_user = Auth::user();
-      if($current_user->id != 1 || $group->id == 1){
+      if(!$current_user->is_admin()){
         return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
       }
 

@@ -1,4 +1,4 @@
-{{ Form::hidden('user_id', $user->id ) }}
+{{ Form::hidden('user_id', $current_user->id ) }}
 <div class="form-group">
     <div class="form-label">
         {!! Form::label('name', 'Name:') !!}

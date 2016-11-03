@@ -27,6 +27,20 @@ class User extends Authenticatable {
         'password', 'remember_token',
     ];
 
+    public static function get_regular_users() {
+      $users = User::where('id', '>', '1' )->get();
+      return $users;
+    }
+
+    public static function get_regular_users_but($excl_users) {
+      $users = User::where('id', '>', '1' )->whereNotIn('id', $excl_users->pluck('id'))->get();
+      return $users;
+    }
+
+    public static function get_admin() {
+        return User::where('id', '=', '1' )->first();
+    }
+
     public function groups() {
         return $this->belongsToMany('App\Group');
     }
@@ -45,6 +59,21 @@ class User extends Authenticatable {
 
     public function attachments() {
         return $this->hasMany('App\Attachment');
+    }
+
+    public function is_admin() {
+        return $this->groups->contains('id', 1);
+    }
+
+    public function is_native_admin() {
+        return $this->id == 1;
+    }
+
+    public function get_allowed_groups() {
+        if($this->is_admin()){
+          return Group::get_regular_groups();
+        }
+        return $this->groups()->where('id', '!=', '1')->get();
     }
 
 }
