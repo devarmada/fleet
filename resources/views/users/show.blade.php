@@ -52,10 +52,10 @@
       @foreach( $user->groups as $group )
         <tr>
             <td>
-                <a href="{{  route('groups.show', $group->id) }}"
-                   style="display: block; width: 100%; height: 100%;">
+                <!-- <a href="{{  route('groups.show', $group->id) }}"
+                   style="display: block; width: 100%; height: 100%;"> -->
                     {{ $group->name }}
-                </a>
+                <!-- </a> -->
             </td>
             <td>
                 {!! Form::open(array('class' => 'form-inline', 'method' => 'POST', 'onsubmit' => 'return ConfirmDisassociate("' . $group->name . '")', 'route' => array('users.remove_group', $user->id, $group->id))) !!}

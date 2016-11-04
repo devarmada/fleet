@@ -39,12 +39,12 @@ class UsersController extends Controller
     }
 
     public function index() {
-      Session::put('backUrl', route('users.index'));
       $current_user = Auth::user();
       if(!$current_user->is_admin()){
         return view('common.not_authorized');
       }
       $users = User::get_regular_users();
+      Session::put('backUrl', route('users.index'));
       return view('users.index', compact('users'));
     }
 
