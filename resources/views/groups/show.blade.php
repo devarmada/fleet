@@ -51,10 +51,10 @@
       @foreach( $group->get_regular_users() as $user )
         <tr>
             <td>
-                <a href="{{  route('users.show', $user->id) }}"
-                   style="display: block; width: 100%; height: 100%;">
+                <!-- <a href="{{  route('users.show', $user->id) }}"
+                   style="display: block; width: 100%; height: 100%;"> -->
                     {{ $user->name }}
-                </a>
+                <!-- </a> -->
             </td>
             <td>
                 {!! Form::open(array('class' => 'form-inline', 'method' => 'POST', 'onsubmit' => 'return ConfirmDisassociate("' . $user->name . '")', 'route' => array('groups.remove_user', $group->id, $user->id))) !!}
