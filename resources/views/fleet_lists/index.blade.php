@@ -28,24 +28,24 @@
       </thead>
       <tbody>
         @foreach( $fleet_lists as $fleet_list )
-          <tr>
-            <td>
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+          <tr class="noborder">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->name }}
               </a>
             </td>
-            <td>
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->description }}
               </a>
             </td>
-            <td>
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->user->name }}
               </a>
             </td>
-            <td>
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->group->name }}
               </a>
             </td>

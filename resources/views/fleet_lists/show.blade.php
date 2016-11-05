@@ -49,28 +49,24 @@
     </thead>
     <tbody>
         @foreach( $fleet_list->aircrafts as $aircraft )
-        <tr>
-            <td>
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+        <tr class="noborder">
+          <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->model }}
                 </a>
             </td>
-            <td>
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->year }}
                 </a>
             </td>
-            <td>
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->description ? $aircraft->description : "-" }}
                 </a>
             </td>
-            <td>
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->user->name }}
                 </a>
             </td>

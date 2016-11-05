@@ -22,9 +22,9 @@
     </thead>
     <tbody>
       @foreach( $groups as $group )
-        <tr>
-          <td>
-            <a href="{{ route('groups.show', $group->id) }}" style="display: block; width: 100%; height: 100%;">
+        <tr class="noborder">
+          <td class="noborder sized">
+            <a href="{{ route('groups.show', $group->id) }}" class="expanded">
               {{ $group->name }}
             </a>
           </td>

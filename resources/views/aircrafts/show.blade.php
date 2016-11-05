@@ -49,16 +49,14 @@
         </thead>
         <tbody>
             @foreach( $aircraft->notes as $note )
-            <tr>
-                <td>
-                    <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}"
-                       style="display: block; width: 100%; height: 100%;">
+              <tr class="noborder">
+                <td class="noborder sized">
+                    <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}" class="expanded">
                         {{ $note->title }}
                     </a>
                 </td>
-                <td>
-                    <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}"
-                       style="display: block; width: 100%; height: 100%;">
+                <td class="noborder sized">
+                    <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}" class="expanded">
                         {{ $note->user->name }}
                     </a>
                 </td>
@@ -95,16 +93,14 @@
         </thead>
         <tbody>
             @foreach( $aircraft->attachments as $attachment )
-            <tr>
-                <td>
-                    <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}"
-                       style="display: block; width: 100%; height: 100%;">
+              <tr class="noborder">
+                <td class="noborder sized">
+                    <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}" class="expanded">
                         {{ $attachment->title }}
                     </a>
                 </td>
-                <td>
-                    <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}"
-                       style="display: block; width: 100%; height: 100%;">
+                <td class="noborder sized">
+                    <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}" class="expanded">
                       @if(explode("/", $attachment->file_type)[0] == 'image')
                         <img src="{{ route('fleet_lists.aircrafts.attachments.get_attachment', [$fleet_list, $aircraft, $attachment]) }}" class="img-thumbnail" width="128" height="128" />
                       @else
@@ -112,9 +108,8 @@
                       @endif
                     </a>
                 </td>
-                <td>
-                    <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}"
-                       style="display: block; width: 100%; height: 100%;">
+                <td class="noborder sized">
+                    <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}" class="expanded">
                         {{ $attachment->user->name }}
                     </a>
                 </td>

@@ -23,14 +23,14 @@
     </thead>
     <tbody>
       @foreach( $users as $user )
-        <tr>
-          <td>
-            <a href="{{ route('users.show', $user->id) }}" style="display: block; width: 100%; height: 100%;">
+        <tr class="noborder">
+          <td class="noborder sized">
+            <a href="{{ route('users.show', $user->id) }}" class="expanded">
               {{ $user->name }}
             </a>
           </td>
-          <td>
-            <a href="{{ route('users.show', $user->id) }}" style="display: block; width: 100%; height: 100%;">
+          <td class="noborder sized">
+            <a href="{{ route('users.show', $user->id) }}" class="expanded">
               {{ $user->email }}
             </a>
           </td>
