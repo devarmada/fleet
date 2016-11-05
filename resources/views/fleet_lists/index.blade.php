@@ -28,28 +28,28 @@
       </thead>
       <tbody>
         @foreach( $fleet_lists as $fleet_list )
-          <tr>
-            <td style="height:0px; width:0px;">
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+          <tr class="noborder">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->name }}
               </a>
             </td>
-            <td style="height:0px; width:0px;">
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->description }}
               </a>
             </td>
-            <td style="height:0px; width:0px;">
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->user->name }}
               </a>
             </td>
-            <td style="height:0px; width:0px;">
-              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+              <a href="{{ route('fleet_lists.show', $fleet_list->id) }}" class="expanded">
                 {{ $fleet_list->group->name }}
               </a>
             </td>
-            <td style="height:0px; width:0px;">
+            <td>
               {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.destroy', $fleet_list->id))) !!}
               <a class="btn btn-primary" href="{{ route('fleet_lists.edit', array($fleet_list->id)) }}">
                 <span class="glyphicon glyphicon-pencil"></span> Edit

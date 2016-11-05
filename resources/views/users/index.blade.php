@@ -23,18 +23,18 @@
     </thead>
     <tbody>
       @foreach( $users as $user )
-        <tr>
-          <td style="height:0px; width:0px;">
-            <a href="{{ route('users.show', $user->id) }}" style="display: block; width: 100%; height: 100%;">
+        <tr class="noborder">
+          <td class="noborder sized">
+            <a href="{{ route('users.show', $user->id) }}" class="expanded">
               {{ $user->name }}
             </a>
           </td>
-          <td style="height:0px; width:0px;">
-            <a href="{{ route('users.show', $user->id) }}" style="display: block; width: 100%; height: 100%;">
+          <td class="noborder sized">
+            <a href="{{ route('users.show', $user->id) }}" class="expanded">
               {{ $user->email }}
             </a>
           </td>
-          <td style="height:0px; width:0px;">
+          <td>
             {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('users.destroy', $user->id))) !!}
             <a class="btn btn-primary" href="{{ route('users.edit', array($user->id)) }}">
               <span class="glyphicon glyphicon-pencil"></span> Edit

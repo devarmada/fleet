@@ -49,32 +49,28 @@
     </thead>
     <tbody>
         @foreach( $fleet_list->aircrafts as $aircraft )
-        <tr>
-          <td style="height:0px; width:0px;">
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+        <tr class="noborder">
+          <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->model }}
                 </a>
             </td>
-            <td style="height:0px; width:0px;">
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->year }}
                 </a>
             </td>
-            <td style="height:0px; width:0px;">
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->description ? $aircraft->description : "-" }}
                 </a>
             </td>
-            <td style="height:0px; width:0px;">
-                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}"
-                   style="display: block; width: 100%; height: 100%;">
+            <td class="noborder sized">
+                <a href="{{ route('fleet_lists.aircrafts.show', [$fleet_list->id, $aircraft->id]) }}" class="expanded">
                     {{ $aircraft->user->name }}
                 </a>
             </td>
-            <td style="height:0px; width:0px;">
+            <td>
                 {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete("aircraft")' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
                 <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
                     <span class="glyphicon glyphicon-pencil"></span> Edit

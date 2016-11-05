@@ -1,0 +1,19 @@
+table tbody tr td.noborder,
+table tbody tr.noborder,
+.noborder{
+  margin: 0;
+  padding-right: 0;
+  padding-left: 0;
+  border: 0;
+}
+
+.sized{
+  height:0px;
+  width:0px
+}
+
+.expanded{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
