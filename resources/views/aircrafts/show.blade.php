@@ -50,19 +50,19 @@
         <tbody>
             @foreach( $aircraft->notes as $note )
             <tr>
-                <td>
+                <td style="height:0px; width:0px;">
                     <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}"
                        style="display: block; width: 100%; height: 100%;">
                         {{ $note->title }}
                     </a>
                 </td>
-                <td>
+                <td style="height:0px; width:0px;">
                     <a href="{{ route('fleet_lists.aircrafts.notes.show', [$fleet_list->id, $aircraft->id, $note->id]) }}"
                        style="display: block; width: 100%; height: 100%;">
                         {{ $note->user->name }}
                     </a>
                 </td>
-                <td>
+                <td style="height:0px; width:0px;">
                   @if($note->is_accessible_by($user))
                     {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete("note")' ,'route' => array('fleet_lists.aircrafts.notes.destroy', $fleet_list->id, $aircraft->id, $note->id))) !!}
                     <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.notes.edit', array($fleet_list->id, $aircraft->id, $note->id)) }}">
@@ -96,13 +96,13 @@
         <tbody>
             @foreach( $aircraft->attachments as $attachment )
             <tr>
-                <td>
+              <td style="height:0px; width:0px;">
                     <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}"
                        style="display: block; width: 100%; height: 100%;">
                         {{ $attachment->title }}
                     </a>
                 </td>
-                <td>
+                <td style="height:0px; width:0px;">
                     <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}"
                        style="display: block; width: 100%; height: 100%;">
                       @if(explode("/", $attachment->file_type)[0] == 'image')
@@ -112,13 +112,13 @@
                       @endif
                     </a>
                 </td>
-                <td>
+                <td style="height:0px; width:0px;">
                     <a href="{{ route('fleet_lists.aircrafts.attachments.show', [$fleet_list->id, $aircraft->id, $attachment->id]) }}"
                        style="display: block; width: 100%; height: 100%;">
                         {{ $attachment->user->name }}
                     </a>
                 </td>
-                <td>
+                <td style="height:0px; width:0px;">
                   @if($attachment->is_accessible_by($user))
                     {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete("attachment")' ,'route' => array('fleet_lists.aircrafts.attachments.destroy', $fleet_list->id, $aircraft->id, $attachment->id))) !!}
                     <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.attachments.edit', array($fleet_list->id, $aircraft->id, $attachment->id)) }}">

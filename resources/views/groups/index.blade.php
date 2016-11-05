@@ -23,12 +23,12 @@
     <tbody>
       @foreach( $groups as $group )
         <tr>
-          <td>
+          <td style="height:0px; width:0px;">
             <a href="{{ route('groups.show', $group->id) }}" style="display: block; width: 100%; height: 100%;">
               {{ $group->name }}
             </a>
           </td>
-          <td>
+          <td style="height:0px; width:0px;">
             {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('groups.destroy', $group->id))) !!}
             <a class="btn btn-primary" href="{{ route('groups.edit', array($group->id)) }}">
               <span class="glyphicon glyphicon-pencil"></span> Edit
