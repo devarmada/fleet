@@ -10,14 +10,14 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
     <!-- Styles -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <link href="/css/app.css" rel="stylesheet">
 
     <link href="/css/mystyle.css" rel="stylesheet">
-
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
 
     <!-- include summernote css/js-->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
@@ -32,6 +32,8 @@
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
 
 </head>
 <body>
@@ -66,6 +68,46 @@
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                              {{ Auth::user()->name }} <span class="caret"></span>
+                          </a>
+
+                          <ul class="dropdown-menu" role="menu">
+                              <li>
+                                <a href="{{ url('/home') }}" >
+                                    My dashboard
+                                </a>
+                              </li>
+
+                              @if (Auth::user() and Auth::user()->is_admin())
+                                <li>
+                                  <a href="{{ url('/users') }}" >
+                                      User management
+                                  </a>
+                                </li>
+
+                                <li>
+                                  <a href="{{ url('/groups') }}" >
+                                      Group management
+                                  </a>
+                                </li>
+                              @endif
+
+                              <li>
+                                <a href="{{ url('/logout') }}"
+                                    onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                              </li>
+                          </ul>
+                      </li>
+                      <!--
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -105,6 +147,7 @@
                                 </li>
                             </ul>
                         </li>
+                      -->
                     @endif
                 </ul>
             </div>
@@ -128,6 +171,7 @@
     @yield('content')
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <!-- <script src="/js/app.js"></script>
+         Removed because it causes issues with dropdown menus -->
   </body>
 </html>
