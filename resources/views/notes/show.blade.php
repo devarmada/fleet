@@ -17,7 +17,7 @@
         <!-- Left Side Of Navbar -->
         <ul class="nav navbar-nav">
           <h2>{{ $note->title }}</h2>
-          <h3>{{ $note->text }}</h3>
+          <h3>{!! $note->text !!}</h3>
         </ul>
 
             @if($note->is_accessible_by($current_user))

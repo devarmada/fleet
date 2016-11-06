@@ -6,22 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Chromabits\Purifier\Contracts\Purifier;
 use App\Note;
 use App\Aircraft;
 use App\FleetList;
 use Redirect;
 use Session;
+use HTMLPurifier_Config;
 
 class NotesController extends Controller
 {
+
+    protected $purifier;
+
     protected $rules = [
       'title' => ['required'],
       'aircraft_id' => ['required'],
       'user_id' => ['required'],
     ];
 
-    public function __construct() {
+    public function __construct(Purifier $purifier) {
       $this->middleware('auth');
+      $this->purifier = $purifier;
     }
 
     public function index(FleetList $fleet_list, Aircraft $aircraft){
@@ -47,9 +53,10 @@ class NotesController extends Controller
         return redirect(Session::get('backUrl'))->withErrors('Create error: not authorized');
       }
       $this->validate($request, $this->rules);
-      $input = Input::all();
+      $input = array_except(Input::all(), 'files');
+      $input['text'] = $this->purifier->clean($request->input('text'));
       Note::create($input);
-      return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft, $user])->with('message', 'Note created.');
+      return Redirect::route('fleet_lists.aircrafts.show', [$fleet_list, $aircraft, $current_user])->with('message', 'Note created.');
     }
 
     public function show(FleetList $fleet_list, Aircraft $aircraft, Note $note) {
@@ -75,7 +82,8 @@ class NotesController extends Controller
          return redirect(Session::get('backUrl'))->withErrors('Update error: not authorized');
        }
        $this->validate($request, $this->rules);
-       $input = array_except(Input::all(), '_method');
+       $input = array_except(Input::all(), ['_method', 'files']);
+       $input['text'] = $this->purifier->clean($request->input('text'));
        $note->update($input);
        return redirect(Session::get('backUrl'))->with('message', 'Note updated');
     }

@@ -12,13 +12,27 @@
     <div class="form-label">
         {!! Form::label('text', 'Text:') !!}
     </div>
+
     <div class="form-field">
-        {!! Form::textarea('text', $text_value, array('class' => 'form-control')) !!}
+        {!! Form::textarea('text', $text_value, array('class' => 'form-control', 'id' => 'notedescription')) !!}
     </div>
 </div>
+
 <div class="form-group">
     <a class="btn btn-primary" href="{{ Session::get('backUrl') }}">
         <span class="glyphicon glyphicon-hand-left"></span> Back
     </a>
     {!! Form::button('<span class="glyphicon glyphicon-ok"></span> '.$submit_text, array('class' => 'btn btn-primary', 'type' => 'submit')) !!}
 </div>
+
+<script type="text/javascript">
+  $('#notedescription').summernote({
+    height: 250,
+    toolbar: [
+                  ["font", ["bold", "underline", "clear"]],
+                  ["para", ["ul", "ol"]],
+                  ["insert", ["link"]],
+                  ["view", ["help"]]
+              ],
+  });
+</script>
