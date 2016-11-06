@@ -21,24 +21,29 @@
           <h3>{{ $aircraft->description }}</h3>
         </ul>
 
-              <!-- Right Side Of Navbar -->
-              <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
-                  {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
-                  <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
-                      <span class="glyphicon glyphicon-pencil"></span> Edit
-                  </a>
-                  {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
-                  {!! Form::close() !!}
-              </ul>
-          </div>
+        <!-- Right Side Of Navbar -->
+        <ul class="nav navbar-nav navbar-left" style="margin-top: 20px;margin-left: 20px;">
+            {!! Form::open(array('class' => 'form-inline', 'method' => 'DELETE', 'onsubmit' => 'return ConfirmDelete()' ,'route' => array('fleet_lists.aircrafts.destroy', $fleet_list->id, $aircraft->id))) !!}
+            <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.edit', array($fleet_list->id, $aircraft->id)) }}">
+                <span class="glyphicon glyphicon-pencil"></span> Edit
+            </a>
+            {!! Form::button('<span class="glyphicon glyphicon-trash"></span> Delete', array('class' => 'btn btn-danger', 'type' => 'submit')) !!}
+            {!! Form::close() !!}
+        </ul>
       </div>
+    </div>
   </nav>
 
   <div id="note">
+    <h2>Notes</h2>
+
     @if ( !$aircraft->notes->count() )
       This aircraft has no notes.
     @else
-      <h2>Notes</h2>
+      @if($aircraft->notes->count() > 4 || $aircraft->notes->count() > 1)
+        @include('aircrafts/partials/_navbuttons', array('show_note_button' => true, 'show_attachment_button' => false))
+      @endif
+
       <table class="table table-striped">
         <thead>
             <tr style="text-align: center;">
@@ -78,10 +83,16 @@
   </div>
 
   <div id=attachments">
+
+    <h2>Attachments</h2>
+
     @if ( !$aircraft->attachments->count() )
       This aircraft has no attachments.
     @else
-      <h2>Attachments</h2>
+      @if($aircraft->attachments->count() > 2 || $aircraft->notes->count() > 2)
+        @include('aircrafts/partials/_navbuttons', array('show_note_button' => false, 'show_attachment_button' => true))
+      @endif
+
       <table class="table table-striped">
         <thead>
             <tr style="text-align: center;">
@@ -130,27 +141,6 @@
     @endif
   </div>
 
-  <nav class="navbar navbar-static-top">
-    <div class="container">
-        <div class="collapse navbar-collapse" id="app-navbar-collapse">
-            <!-- Left Side Of Navbar -->
-            <ul class="nav navbar-nav">
-              <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.notes.create', [$fleet_list->id, $aircraft->id], array('class' => 'btn btn-info')) }}">
-                  <span class="glyphicon glyphicon-plus"></span> New note
-              </a>
-              <a class="btn btn-primary" href="{{ route('fleet_lists.aircrafts.attachments.create', [$fleet_list->id, $aircraft->id], array('class' => 'btn btn-info')) }}">
-                  <span class="glyphicon glyphicon-plus"></span> New attachment
-              </a>
-                <a class="btn btn-primary" href="{{ route('fleet_lists.show', $fleet_list) }}">
-                    <span class="glyphicon glyphicon-hand-left"></span> Back
-                </a>
-            </ul>
+  @include('aircrafts/partials/_navbuttons', array('show_note_button' => true, 'show_attachment_button' => true))
 
-            <!-- Right Side Of Navbar -->
-            <ul class="nav navbar-nav navbar-right">
-                &nbsp;
-            </ul>
-        </div>
-    </div>
-  </nav>
 @endsection
